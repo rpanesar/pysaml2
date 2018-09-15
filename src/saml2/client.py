@@ -484,7 +484,7 @@ class Saml2Client(Base):
             raise SAMLError("Unsupported binding")
 
     def handle_logout_request(self, request, name_id, binding, sign=False,
-                              sign_alg=None, relay_state=""):
+                              sign_alg=None, relay_state="", **kwargs):
         """
         Deal with a LogoutRequest
 
@@ -492,6 +492,7 @@ class Saml2Client(Base):
         :param name_id: The id of the current user
         :param binding: Which binding the message came in over
         :param sign: Whether the response will be signed or not
+        :param kwargs: Extra key word arguments
         :return: Keyword arguments which can be used to send the response
             what's returned follow different patterns for different bindings.
             If the binding is BINDIND_SOAP, what is returned looks like this::
@@ -536,4 +537,4 @@ class Saml2Client(Base):
 
         return self.apply_binding(rinfo["binding"], response,
                                   rinfo["destination"], relay_state,
-                                  response=True)
+                                  response=True, **kwargs)
